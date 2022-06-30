@@ -14,13 +14,17 @@ function Login() {
             password,
         }
         try {
+            toast.loading('Loading...')
             const response = await axios.post("/api/auth/login", userObj)
+            toast.dismiss()
             if (response.data.success) {
                 toast.success(response.data.message)
             } else {
                 toast.error(response.data.message)
             }
         } catch (error) {
+            toast.dismiss()
+            toast.error('Something went wrong')
             console.log(error)
         }
     }
