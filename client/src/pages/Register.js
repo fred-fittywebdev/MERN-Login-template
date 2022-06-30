@@ -16,19 +16,19 @@ function Register() {
         if (password === confirmPassword) {
             const userObj = {
                 name,
-                email,
                 password,
+                email,
                 confirmPassword,
             }
             try {
-                const response = await axios.post('/api/auth/register', userObj)
+                const response = await axios.post("/api/auth/register", userObj)
                 if (response.data.success) {
                     toast.success(response.data.message)
                 } else {
                     toast.error(response.data.message)
                 }
             } catch (error) {
-
+                console.log(error)
             }
         } else {
             toast.error('password does not match')
