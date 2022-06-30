@@ -15,4 +15,4 @@ app.use(cors())
 
 app.use('/api/auth', authRoute)
 app.get('/', (req, res) => res.send('Hello world !'))
-app.listen(port, () => console.log(`Server is running on port 8080`))
+app.listen(port, () => console.log(`Server is running on port ${port}`))

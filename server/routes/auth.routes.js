@@ -10,6 +10,7 @@ router.post('/register', async (req, res) => {
         res.status(200).send({ success: true, message: 'User registered successfully' })
     } catch (error) {
         res.status(400).send(error)
+        console.log(error)
     }
 })
 
@@ -19,7 +20,7 @@ router.post('/login', async (req, res) => {
         if (user) {
             res.status(200).send({ success: true, message: 'User login successfully', data: user })
         } else {
-            res.status(200).send({ success: false, message: 'User login failed', data: null })
+            res.status(200).send({ success: false, message: 'Invalid credentials', data: null })
         }
     } catch (error) {
         res.status(400).send(error)
