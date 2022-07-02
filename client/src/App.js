@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -11,12 +11,30 @@ function App() {
     <BrowserRouter>
       <Toaster />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route path='/' element={<ProtcetedRoutes><Home /></ProtcetedRoutes>} />
+        <Route path='/login' element={<PublicdRoutes><Login /></PublicdRoutes>} />
+        <Route path='/register' element={<PublicdRoutes><Register /></PublicdRoutes>} />
       </Routes>
     </BrowserRouter>
   );
+}
+
+export function ProtcetedRoutes({ children }) {
+  const user = localStorage.getItem('user');
+  if (user && user !== '') {
+    return children
+  } else {
+    return <Navigate to='/login' />
+  }
+}
+
+export function PublicdRoutes({ children }) {
+  const user = localStorage.getItem('user');
+  if (user && user !== '') {
+    return <Navigate to='/' />
+  } else {
+    return children
+  }
 }
 
 export default App;
