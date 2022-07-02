@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
@@ -7,6 +7,7 @@ function Login() {
     // form value hooks
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     const loginUser = async () => {
         const userObj = {
@@ -19,6 +20,8 @@ function Login() {
             toast.dismiss()
             if (response.data.success) {
                 toast.success(response.data.message)
+                localStorage.setItem("user", JSON.stringify(response.data.data))
+                navigate('/')
             } else {
                 toast.error(response.data.message)
             }
