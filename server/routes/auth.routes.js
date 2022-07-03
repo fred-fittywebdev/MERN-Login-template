@@ -7,6 +7,9 @@ const bcrypt = require('bcrypt');
 // jwt
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET
+// nodemailer
+const sendMail = require('../helpers/sendEmail');
+const sendEmail = require('../helpers/sendEmail');
 
 router.post('/register', async (req, res) => {
     try {
@@ -24,7 +27,9 @@ router.post('/register', async (req, res) => {
         req.body.password = encryptedPassword
 
         const newuser = new User(req.body)
-        await newuser.save()
+        const result = await newuser.save()
+        await sendEmail(result, "verify-email")
+
         res.status(200).send({ success: true, message: 'User registered successfully' })
     } catch (error) {
         res.status(400).send(error)
