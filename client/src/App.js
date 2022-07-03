@@ -5,6 +5,7 @@ import Register from './pages/Register';
 
 // Toast
 import { Toaster } from 'react-hot-toast'
+import VerifyEmail from './pages/VerifyEmail';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/' element={<ProtcetedRoutes><Home /></ProtcetedRoutes>} />
         <Route path='/login' element={<PublicdRoutes><Login /></PublicdRoutes>} />
         <Route path='/register' element={<PublicdRoutes><Register /></PublicdRoutes>} />
+        <Route path='/verifymail/:token' element={<PublicdRoutes><VerifyEmail /> </PublicdRoutes>} />
       </Routes>
     </BrowserRouter>
   );
