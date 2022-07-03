@@ -1,4 +1,7 @@
 const nodemailer = require('nodemailer')
+const bcrypt = require('bcrypt')
+// token
+const Token = require('../models/tokenModel')
 
 
 module.exports = async (user, malType) => {
@@ -13,11 +16,17 @@ module.exports = async (user, malType) => {
         },
     })
 
+    // link
+    const encryptedToken = bcrypt.hashSync(user._id.toString(), 10)
+    const token = new Token({ userId: user._id, token: encryptedToken })
+    await token.save()
+    const emailContent = `<div><h1>Please follow this link to verify your email adress.</h1><a href="http://localhost:3000/verifymail/${encryptedToken}">${encryptedToken}</a></div>`
+
     const mailOptions = {
         from: "admin@gmail.com",
         to: user.email,
         subject: "Email verification",
-        content: "Please verify your email address"
+        html: emailContent
     }
 
     await transporter.sendMail(mailOptions)
