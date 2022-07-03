@@ -8,7 +8,7 @@ function Home() {
     const navigate = useNavigate()
 
     const getData = async () => {
-        toast.loading('Fetching data..')
+        toast.loading('Fetching data ..')
         try {
             const token = localStorage.getItem('user');
             const response = await axios.get('/api/user/get-user-info', {
