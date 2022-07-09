@@ -10,6 +10,8 @@ const secret = process.env.JWT_SECRET
 // nodemailer
 const sendMail = require('../helpers/sendEmail');
 const sendEmail = require('../helpers/sendEmail');
+// Token for email verification
+const Token = require('../models/tokenModel')
 
 router.post('/register', async (req, res) => {
     try {
@@ -65,6 +67,26 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         res.status(400).send(error)
     }
+})
+
+// Email verify endpoint
+router.post('/verifymail', async (req, res) => {
+    try {
+        console.log(req.body.token);
+        const tokenData = await Token.findOne({ token: req.body.token })
+        console.log(tokenData);
+        if (tokenData) {
+            await User.findOneAndUpdate({ _id: tokenData.userId, isverified: true })
+            await Token.findOneAndDelete({ token: req.body.token })
+            res.send({ success: true, message: 'Email verified successfully' })
+        } else {
+            res.send({ success: false, message: 'Unauthenticated' })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
 })
 
 module.exports = router

@@ -17,8 +17,10 @@ module.exports = async (user, malType) => {
     })
 
     // link
-    const encryptedToken = bcrypt.hashSync(user._id.toString(), 10)
-    const token = new Token({ userId: user._id, token: encryptedToken })
+    const encryptedToken = bcrypt.hashSync(user._id.toString(), 10).replace(/['/']/g, "")
+    const token = new Token({
+        userId: user._id, token: encryptedToken,
+    })
     await token.save()
     const emailContent = `<div><h1>Please follow this link to verify your email adress.</h1><a href="http://localhost:3000/verifymail/${encryptedToken}">${encryptedToken}</a></div>`
 
